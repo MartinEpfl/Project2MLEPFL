@@ -1,0 +1,4 @@
+training/croppedImages/*
+ml/
+.ipynb_checkpoints/
+training/croppedLabels/*
