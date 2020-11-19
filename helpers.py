@@ -78,16 +78,17 @@ def value_to_class(v):
     else:
         return 0
 
-def concatenate_mask(list_masks):
-    """list_masks of size (625, 16, 16) where the image 
-    is assembled column after column so first 25 elements 
-    are the first elements in the first column starting from pos [0,0] to [25,0]
-    masks are numpy of size (16,16)"""
-    z = np.zeros((400, 400))
+def concatenate_mask(cropped_masks):
+    '''
+    reassemble a nparray of mask to an Image
+    :param cropped_masks: nparray of shape(625,16,16) containing all cropped 16x16 masks
+    :return out: nparray of shape(400,400)
+    '''
+    out = np.zeros((400, 400))
     for i in range(25):
-        columns = np.concatenate(list_masks[0 + i * 25:25 + i * 25], axis=0)
-        z[:, 0 + i * 16:16 + i * 16] = columns
-    return z
+        columns = np.concatenate(cropped_masks[0 + i * 25:25 + i * 25], axis=0)
+        out[:, 0 + i * 16:16 + i * 16] = columns
+    return out
 
 
 def label_to_img(imgwidth, imgheight, w, h, labels):
