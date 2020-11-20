@@ -78,16 +78,18 @@ def value_to_class(v):
     else:
         return 0
 
-def concatenate_mask(cropped_masks):
+def concatenate_mask(cropped_masks,size):
     '''
     reassemble a nparray of mask to an Image
     :param cropped_masks: nparray of shape(625,16,16) containing all cropped 16x16 masks
     :return out: nparray of shape(400,400)
     '''
-    out = np.zeros((400, 400))
-    for i in range(25):
-        columns = np.concatenate(cropped_masks[0 + i * 25:25 + i * 25], axis=0)
-        out[:, 0 + i * 16:16 + i * 16] = columns
+    w = size // 16
+    h = size // w
+    out = np.zeros((size, size))
+    for i in range(w):
+        columns = np.concatenate(cropped_masks[0 + i * w:w + i * w], axis=0)
+        out[:, 0 + i * h:h + i * h] = columns
     return out
 
 
